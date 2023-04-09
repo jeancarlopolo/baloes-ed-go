@@ -4,7 +4,7 @@ package formas
 import (
 	"fmt"
 	"math"
-	"github.com/jeancarlopolo/baloes-ed-go/estruturas/fila"
+	"github.com/jeancarlopolo/baloes-ed-go/src/estruturas"
 )
 
 // Forma é uma interface que define uma forma geométrica.
