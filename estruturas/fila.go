@@ -1,5 +1,5 @@
-// Pacote fila implementa uma estrutura de dados do tipo fila circular estática.
-package fila
+// Implementa uma estrutura de dados do tipo fila circular estática.
+package estruturas
 
 import (
 	"fmt"
@@ -59,8 +59,8 @@ func (f *Fila) String() string {
 }
 
 // Aplicar aplica a função f a cada elemento da fila.
-func (f *Fila) Aplicar(f2 func(interface{}, ...interface{})) { 
+func (f *Fila) Aplicar(f2 func(interface{}, ...interface{}), args ...interface{}) { 
 	for i := 0; i < f.tamanho; i++ {
-		f2(f.elementos[(f.inicio+i)%len(f.elementos)])
+		f2(f.elementos[(f.inicio+i)%len(f.elementos)], args...)
 	}
 }
