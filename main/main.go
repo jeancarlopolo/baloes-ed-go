@@ -63,7 +63,8 @@ func main() {
 	// lê o arquivo .geo
 	go arquivos.LerGeo(arquivoGeo, db, doneGeo)
 
-	arquivoSvg, err := os.Create(pathSaida + nomeArquivoGeo[:len(nomeArquivoGeo)-4] + nomeArquivoQry[:len(nomeArquivoQry)-4] + ".svg")
+	nomeArquivoSvg := pathSaida + nomeArquivoGeo[:len(nomeArquivoGeo)-4] + nomeArquivoQry[:len(nomeArquivoQry)-4]
+	arquivoSvg, err := os.Create(nomeArquivoSvg + ".svg")
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -98,7 +99,7 @@ func main() {
 		select {
 		case <-doneGeo:
 			if arquivoQry != nil {
-				arquivos.LerQry(arquivoQry, arquivoTxt, db, svgStruct)
+				arquivos.LerQry(arquivoQry, arquivoTxt, db, svgStruct, nomeArquivoSvg)
 			}
 			for i := 0; i < db.Tamanho(); i++ {
 				forma := db.Obter(i).(formas.Forma)

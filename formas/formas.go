@@ -34,7 +34,6 @@ type Retangulo struct {
 	CorFundo string
 }
 
-
 // String retorna uma representação em string de um retângulo.
 func (r Retangulo) String() string {
 	return fmt.Sprintf("Retângulo %d: (%.2f, %.2f)"+
@@ -75,7 +74,6 @@ type Linha struct {
 	CorBorda string
 }
 
-
 // String retorna uma representação em string de uma linha.
 func (l Linha) String() string {
 	return fmt.Sprintf("Linha %d: (%.2f, %.2f) -> (%.2f, %.2f)"+
@@ -97,7 +95,6 @@ type Texto struct {
 	Peso     string
 	Ancora   string
 }
-
 
 // String retorna uma representação em string de um texto.
 func (t Texto) String() string {
