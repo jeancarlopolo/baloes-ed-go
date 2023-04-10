@@ -12,6 +12,31 @@ type Forma interface {
 	String() string
 }
 
+func Mover(f Forma, dx, dy float64) {
+	switch t := f.(type) {
+	case *Retangulo:
+		t.X += dx
+		t.Y += dy
+	case *Circulo:
+		t.X += dx
+		t.Y += dy
+	case *Linha:
+		t.X1 += dx
+		t.Y1 += dy
+		t.X2 += dx
+		t.Y2 += dy
+	case *Texto:
+		t.X += dx
+		t.Y += dy
+	case *Caca:
+		t.X += dx
+		t.Y += dy
+	case *Balao:
+		t.X += dx
+		t.Y += dy
+	}
+}
+
 func (r Retangulo) Area() float64 {
 	return r.Altura * r.Largura
 }

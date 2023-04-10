@@ -57,10 +57,3 @@ func (f *Fila) String() string {
 	}
 	return s + "]"
 }
-
-// Aplicar aplica a função f a cada elemento da fila.
-func (f *Fila) Aplicar(f2 func(interface{}, ...interface{}), args ...interface{}) { 
-	for i := 0; i < f.tamanho; i++ {
-		f2(f.elementos[(f.inicio+i)%len(f.elementos)], args...)
-	}
-}

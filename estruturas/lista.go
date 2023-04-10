@@ -63,31 +63,6 @@ func (l *Lista) Remover() interface{} {
 	return e
 }
 
-func (l *Lista) Aplicar(f func(*interface{}, ...interface{}), args ...interface{}) { 
-	for e := l.Primeiro; e != nil; e = e.Prox {
-		f(&e.Valor, args...) 
-	}
-}
-
-func (l *Lista) Recriar(f func(interface{}, ...interface{}) interface{}, args ...interface{}) *Lista {
-	nova := NovaLista(l.Capacidade)
-	for e := l.Primeiro; e != nil; e = e.Prox {
-		novo := f(e.Valor, args...)
-		nova.Inserir(novo)
-	}
-	return nova
-}
-
-func (l *Lista) Filtrar(f func(interface{}, ...interface{}) bool, args ...interface{}) *Lista {
-	nova := NovaLista(l.Capacidade)
-	for e := l.Primeiro; e != nil; e = e.Prox {
-		if f(e.Valor, args...) {
-			nova.Inserir(e.Valor)
-		}
-	}
-	return nova
-}
-
 func (l *Lista) String() string {
 	s := "["
 	for e := l.Primeiro; e != nil; e = e.Prox {
@@ -99,4 +74,15 @@ func (l *Lista) String() string {
 func (l *Lista) Deletar() {
 	l.Primeiro = nil
 	l.Ultimo = nil
+}
+
+func (l *Lista) Obter(i int) interface{} {
+	if i < 0 || i >= l.Tamanho() {
+		panic("índice inválido")
+	}
+	e := l.Primeiro
+	for j := 0; j < i; j++ {
+		e = e.Prox
+	}
+	return e.Valor
 }
