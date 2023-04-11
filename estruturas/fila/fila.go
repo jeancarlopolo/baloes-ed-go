@@ -2,7 +2,7 @@
 package fila
 
 import (
-	"github.com/jeancarlopolo/lista"
+	"github.com/jeancarlopolo/baloes-ed-go/lista"
 )
 
 // Fila é uma fila circular estática de listas duplamente encadeadas.

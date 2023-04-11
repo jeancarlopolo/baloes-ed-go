@@ -4,7 +4,7 @@ package lista
 import (
 	"fmt"
 
-	"github.com/jeancarlopolo/formas"
+	"github.com/jeancarlopolo/baloes-ed-go/formas"
 )
 
 // Lista é uma lista duplamente encadeada.
