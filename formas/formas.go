@@ -2,7 +2,7 @@
 package formas
 
 import (
-	"github.com/jeancarlopolo/baloes-ed-go/fila"
+	"github.com/jeancarlopolo/baloes-ed-go/estruturas/fila"
 	"math"
 )
 
@@ -51,7 +51,7 @@ type Balao struct {
 	Texto
 	// 10 filas circulares estáticas
 	// Cada fila pode ter até 15 listas duplamente encadeadas de formas
-	Filas              [9]*estruturas.Fila
+	Filas              [9]*fila.Fila
 	RaioCamera         float64
 	ProfundidadeCamera float64
 	AlturaCamera       float64
