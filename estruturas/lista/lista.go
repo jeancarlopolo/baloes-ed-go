@@ -3,6 +3,7 @@ package lista
 
 import (
 	"fmt"
+
 	"github.com/jeancarlopolo/formas"
 )
 
@@ -15,9 +16,9 @@ type Lista struct {
 
 // Elemento é um elemento da lista.
 type Elemento struct {
-	Valor  formas.Forma
-	Prox   *Elemento
-	Ant    *Elemento
+	Valor formas.Forma
+	Prox  *Elemento
+	Ant   *Elemento
 }
 
 // New cria uma nova lista.

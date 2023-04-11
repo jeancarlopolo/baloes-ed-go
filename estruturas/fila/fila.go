@@ -2,7 +2,6 @@
 package fila
 
 import (
-	"fmt"
 	"github.com/jeancarlopolo/lista"
 )
 

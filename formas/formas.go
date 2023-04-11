@@ -2,7 +2,6 @@
 package formas
 
 import (
-	"github.com/jeancarlopolo/estruturas/fila"
 	"math"
 )
 
@@ -88,14 +87,14 @@ func (c Circulo) Area() float64 {
 func (c Circulo) Pontos() int {
 	pontuacao := c.Area() / 2
 	switch {
-		case c.CorBorda == "#FFFFFF" && c.CorFundo == "#FFFF00":
-			pontuacao *= 8
-		case c.CorBorda == "#D45500" && c.CorFundo == "#FF7F2A":
-			pontuacao *= 2
-		case c.CorBorda == "#AA0000" && c.CorFundo == "#DE8787":
-			pontuacao *= 4
-		case c.CorBorda == "#FFFFFF" && c.CorFundo == "#B3B3B3":
-			pontuacao = 0
+	case c.CorBorda == "#FFFFFF" && c.CorFundo == "#FFFF00":
+		pontuacao *= 8
+	case c.CorBorda == "#D45500" && c.CorFundo == "#FF7F2A":
+		pontuacao *= 2
+	case c.CorBorda == "#AA0000" && c.CorFundo == "#DE8787":
+		pontuacao *= 4
+	case c.CorBorda == "#FFFFFF" && c.CorFundo == "#B3B3B3":
+		pontuacao = 0
 	}
 	return int(pontuacao)
 }
