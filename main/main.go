@@ -2,11 +2,13 @@ package main
 
 import (
 	"fmt"
+	"os"
+	"time"
+
 	"github.com/ajstarks/svgo"
 	"github.com/jeancarlopolo/baloes-ed-go/arquivos"
 	"github.com/jeancarlopolo/baloes-ed-go/estruturas"
 	"github.com/jeancarlopolo/baloes-ed-go/formas"
-	"os"
 )
 
 func main() {
@@ -14,7 +16,7 @@ func main() {
 	// -o [path de saída] (obrigatório)
 	// -f [nome do arquivo .geo de entrada] (obrigatório)
 	// -q [nome do arquivo .qry de entrada] (opcional, default: não executar queries)
-
+	tempo := time.Now()
 	pathEntrada := "./"
 	pathSaida := ""
 	nomeArquivoGeo := ""
@@ -61,7 +63,7 @@ func main() {
 	defer arquivoGeo.Close()
 
 	// lê o arquivo .geo
-	go arquivos.LerGeo(arquivoGeo, &db, &doneGeo)
+	go arquivos.LerGeo(arquivoGeo, &db, doneGeo)
 
 	nomeArquivoSvg := pathSaida + nomeArquivoGeo[:len(nomeArquivoGeo)-4]
 	if nomeArquivoQry != "" {
@@ -97,25 +99,22 @@ func main() {
 		defer arquivoTxt.Close()
 		defer arquivoQry.Close()
 	}
+	defer arquivoSvg.Close()
 
-	for {
-		select {
-		case <-doneGeo:
-			//			if arquivoQry != nil {
-			//				arquivos.LerQry(arquivoQry, arquivoTxt, db, svgStruct, nomeArquivoSvg)
-			//			}
-
-			for atual := db.Inicio; atual != nil; atual = atual.Prox {
-				formaDesenhada := atual.Valor.(formas.Desenhavel)
-				formaDesenhada.Desenhar(svgStruct)
-			}
-			svgStruct.End()
-			return
-		default:
-			if db.Tamanho() == 0 {
-				svgStruct.End()
-				return
-			}
-		}
+	<-doneGeo
+	//			if arquivoQry != nil {
+	//				arquivos.LerQry(arquivoQry, arquivoTxt, db, svgStruct, nomeArquivoSvg)
+	//			}
+	fmt.Println("tempo até ler o geo: ", time.Since(tempo))
+	fmt.Println(db.Tamanho())
+	i := 0
+	for atual := db.Inicio; atual != nil; atual = atual.Prox {
+		formaDesenhada := atual.Valor.(formas.Desenhavel)
+		formaDesenhada.Desenhar(svgStruct)
+		fmt.Println("desenhou ", i)
+		i++
 	}
+	fmt.Println("tempo até desenhar: ", time.Since(tempo))
+	svgStruct.End()
+
 }

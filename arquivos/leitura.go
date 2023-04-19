@@ -10,10 +10,13 @@ import (
 	"github.com/jeancarlopolo/baloes-ed-go/formas"
 )
 
-func LerGeo(arquivoGeo io.Reader, db **estruturas.Lista, doneGeo *chan bool) {
+func LerGeo(arquivoGeo io.Reader, db **estruturas.Lista, doneGeo chan bool) {
 	// lê o arquivo .geo linha por linha
 	scanner := bufio.NewScanner(arquivoGeo)
 	var peso, familia, tamanho string
+	peso = "normal"
+	familia = "sans-serif"
+	tamanho = "12px"
 	for scanner.Scan() {
 		linha := scanner.Text()
 		// separa a linha em palavras
@@ -70,7 +73,13 @@ func LerGeo(arquivoGeo io.Reader, db **estruturas.Lista, doneGeo *chan bool) {
 			y, _ := strconv.ParseFloat(palavras[3], 64)
 			corBorda := palavras[4]
 			corFundo := palavras[5]
-			ancora := palavras[6]
+			ancora := "middle"
+			switch palavras[6] {
+			case "i":
+				ancora = "start"
+			case "f":
+				ancora = "end"
+			}
 			// junta as palavras restantes em uma só
 			texto := ""
 			for i := 7; i < len(palavras); i++ {
@@ -110,9 +119,27 @@ func LerGeo(arquivoGeo io.Reader, db **estruturas.Lista, doneGeo *chan bool) {
 				X2: x2,
 				Y2: y2}
 			(*db).Inserir(linhaForma)
+		case "ts":
+			//fFamily fWeight fSize
+			// Muda o estilo dos textos (comando t)
+			// subsequentes.
+			// font family: sans (sans-serif), serif, cursive;
+			// font weight ( n: normal, b: bold, b+: bolder,
+			// l: | lighter)
+
+			familia = palavras[1]
+			switch palavras[2] {
+			case "n":
+				peso = "normal"
+			case "b":
+				peso = "bold"
+			case "b+":
+				peso = "bolder"
+			}
+			tamanho = palavras[3]
 		}
 	}
-	*doneGeo <- true
+	doneGeo <- true
 }
 
 //arquivos.LerQry(arquivoQry, arquivoTxt, db, svgStruct, nomeArquivoSvg)
