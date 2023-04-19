@@ -4,12 +4,15 @@
     // Para obter mais informações, acesse: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+        
+        
         {
             "name": "Launch Package",
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "program": "${fileDirname}"
+            "program": "${workspaceFolder}/main/main.go",
+            "args": ["-e", "/home/jean/c_uel/biruta/t", "-f", "01-smpls-balao-fotografa.geo", "-o", "/home/jean/c_uel/biruta/t"]
         }
     ]
 }

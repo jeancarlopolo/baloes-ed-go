@@ -2,9 +2,15 @@
 package formas
 
 import (
-	"github.com/jeancarlopolo/baloes-ed-go/estruturas/fila"
+	"github.com/jeancarlopolo/baloes-ed-go/estruturas"
 	"math"
 )
+
+type FormaI interface {
+	Desenhavel
+	Pontuavel
+	Interceptavel
+}
 
 type Forma struct {
 	Id       int
@@ -37,7 +43,7 @@ type Texto struct {
 	Texto   string
 	Ancora  string
 	Familia string
-	Tamanho float64
+	Tamanho string
 	Peso    string
 }
 
@@ -51,7 +57,7 @@ type Balao struct {
 	Texto
 	// 10 filas circulares estáticas
 	// Cada fila pode ter até 15 listas duplamente encadeadas de formas
-	Filas              [9]*fila.Fila
+	Filas              [9]*estruturas.Fila
 	RaioCamera         float64
 	ProfundidadeCamera float64
 	AlturaCamera       float64
@@ -129,4 +135,12 @@ func (t Texto) Pontos() int {
 
 func (c Caca) Pontos() int {
 	return 100
+}
+
+func NewBalao() *Balao {
+	balao := &Balao{}
+	for i := 0; i < 9; i++ {
+		balao.Filas[i] = estruturas.NewFila(15)
+	}
+	return balao
 }

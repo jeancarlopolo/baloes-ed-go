@@ -24,17 +24,17 @@ func main() {
 	for i := 1; i < len(os.Args); i++ {
 		switch os.Args[i] {
 		case "-e":
-			pathEntrada = os.Args[i+1]
 			i++
+			pathEntrada = os.Args[i]
 		case "-o":
-			pathSaida = os.Args[i+1]
 			i++
+			pathSaida = os.Args[i]
 		case "-f":
-			nomeArquivoGeo = os.Args[i+1]
 			i++
+			nomeArquivoGeo = os.Args[i]
 		case "-q":
-			nomeArquivoQry = os.Args[i+1]
 			i++
+			nomeArquivoQry = os.Args[i]
 		}
 	}
 	if pathSaida == "" || nomeArquivoGeo == "" {
@@ -42,7 +42,7 @@ func main() {
 		return
 	}
 
-	db := estruturas.NovaLista(1000)
+	db := estruturas.New(1000)
 	doneGeo := make(chan bool)
 
 	// arruma os paths
@@ -61,9 +61,12 @@ func main() {
 	defer arquivoGeo.Close()
 
 	// lê o arquivo .geo
-	go arquivos.LerGeo(arquivoGeo, db, doneGeo)
+	go arquivos.LerGeo(arquivoGeo, &db, &doneGeo)
 
-	nomeArquivoSvg := pathSaida + nomeArquivoGeo[:len(nomeArquivoGeo)-4] + nomeArquivoQry[:len(nomeArquivoQry)-4]
+	nomeArquivoSvg := pathSaida + nomeArquivoGeo[:len(nomeArquivoGeo)-4]
+	if nomeArquivoQry != "" {
+		nomeArquivoSvg += nomeArquivoQry[:len(nomeArquivoQry)-4]
+	}
 	arquivoSvg, err := os.Create(nomeArquivoSvg + ".svg")
 	if err != nil {
 		fmt.Println(err)
@@ -73,7 +76,7 @@ func main() {
 
 	// escreve o cabeçalho do svg
 	svgStruct := svg.New(arquivoSvg)
-	svgStruct.Start(1000, 1000)
+	svgStruct.Start(5000, 5000)
 	svgStruct.Title("Arquivo SVG")
 
 	var arquivoQry *os.File
@@ -98,13 +101,16 @@ func main() {
 	for {
 		select {
 		case <-doneGeo:
-			if arquivoQry != nil {
-				arquivos.LerQry(arquivoQry, arquivoTxt, db, svgStruct, nomeArquivoSvg)
+			//			if arquivoQry != nil {
+			//				arquivos.LerQry(arquivoQry, arquivoTxt, db, svgStruct, nomeArquivoSvg)
+			//			}
+
+			for atual := db.Inicio; atual != nil; atual = atual.Prox {
+				formaDesenhada := atual.Valor.(formas.Desenhavel)
+				formaDesenhada.Desenhar(svgStruct)
 			}
-			for i := 0; i < db.Tamanho(); i++ {
-				forma := db.Obter(i).(formas.Forma)
-				arquivos.DesenharForma(forma, svgStruct)
-			}
+			svgStruct.End()
+			return
 		default:
 			if db.Tamanho() == 0 {
 				svgStruct.End()
