@@ -12,7 +12,7 @@
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/main/main.go",
-            "args": ["-e", "/home/jean/c_uel/biruta/t", "-f", "01-smpls-balao-fotografa.geo", "-o", "/home/jean/c_uel/biruta/t"]
+            "args": ["-e", "/home/jean/c_uel/biruta/t", "-f", "01-caca-fotos.geo", "-o", "/home/jean/c_uel/biruta/t"]
         }
     ]
 }
